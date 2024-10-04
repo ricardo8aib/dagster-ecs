@@ -1,0 +1,45 @@
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Terraform crash log files
+crash.log
+
+# Terraform variable files
+*.tfvars
+*.tfvars.json
+
+# Terraform plan files
+*.tfplan
+
+# Terraform lock files
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+
+# Local .terraform directories
+**/.terraform/*
+
+# Sensitive credentials and configuration files
+.env
+*.pem
+
+# Python virtual environment (if applicable)
+venv/
+.env/
+
+# Docker specific files
+*.dockerignore
+docker-compose.yml
+Dockerfile
+**/build/
+**/dist/
+**/.docker/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.bak
+
+# macOS specific files
+.DS_Store
