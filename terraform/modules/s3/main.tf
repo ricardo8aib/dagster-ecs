@@ -14,3 +14,21 @@ resource "aws_s3_bucket_versioning" "code_location_versioning" {
   }
 }
 
+# Bucket policy
+resource "aws_s3_bucket_policy" "my_bucket_policy" {
+  bucket = aws_s3_bucket.code_location.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {
+      "Service": "s3.amazonaws.com"
+    },
+    "Action": "s3:PutBucketNotification",
+    "Resource": "${aws_s3_bucket.code_location.arn}"
+  }]
+}
+EOF
+}

@@ -32,3 +32,31 @@ resource "aws_datasync_task" "s3_to_efs" {
     preserve_deleted_files = "REMOVE"
   }
 }
+
+# EventBridge Rule that triggers when an S3 object is uploaded.
+resource "aws_cloudwatch_event_rule" "s3_object_created_rule" {
+  name        = "s3-object-created-rule"
+  description = "Rule to trigger DataSync task when an object is created in S3"
+  event_pattern = jsonencode({
+    "source": ["aws.s3"],
+    "detail-type": ["Object Created"],
+    "detail": {
+      "bucket": {
+        "name": ["${var.CODE_LOCATION_BUCKET_NAME}"]
+      }
+    }
+  })
+}
+
+# Event Bridge Target
+resource "aws_cloudwatch_event_target" "invoke_datasync_task" {
+  rule      = aws_cloudwatch_event_rule.s3_object_created_rule.name
+  arn       = aws_datasync_task.s3_to_efs.arn
+  role_arn  = var.DATASYNC_TASK_ROLE_ARN
+
+  input_transformer {
+    input_template = jsonencode({
+      "taskArn": "${aws_datasync_task.s3_to_efs.arn}"
+    })
+  }
+}

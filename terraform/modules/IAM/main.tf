@@ -37,6 +37,25 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 POLICY
 }
 
+resource "aws_iam_role" "eventbridge_datasync_execution_role" {
+  name = var.EVENTBRIDGE_DATASYNC_EXECUTION_ROLE_NAME
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "events.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
 
 # Policies
 resource "aws_iam_role_policy" "datasync_role_policy" {
@@ -124,6 +143,23 @@ resource "aws_iam_role_policy" "ecs_task_policy" {
         "iam:PassRole"
       ],
       "Resource": "${aws_iam_role.ecs_task_execution_role.arn}"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy" "datasync_policy" {
+  role = aws_iam_role.eventbridge_datasync_execution_role.id
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "datasync:StartTaskExecution",
+      "Resource": "${var.DATASYNC_TASK_ARN}"
     }
   ]
 }

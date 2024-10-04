@@ -18,6 +18,21 @@ variable "ECS_POLICY_NAME" {
   type        = string
 }
 
+variable "EVENTBRIDGE_DATASYNC_EXECUTION_ROLE_NAME" {
+  description = "The name of the IAM role that allows EventBridge to invoke the StartTaskExecution action for DataSync"
+  type        = string
+}
+
+variable "EVENTBRIDGE_DATASYNC_EXECUTION_POLICY_NAME" {
+  description = "The name of the IAM policy that allows EventBridge to invoke the StartTaskExecution action for DataSync"
+  type        = string
+}
+
+variable "DATASYNC_TASK_ARN" {
+  description = "The ARN of the datasync task for the EventBridge Datasync execution policy"
+  type        = string
+}
+
 variable "CODE_LOCATION_BUCKET_ARN" {
   description = "The arn of the code location bucket"
   type        = string

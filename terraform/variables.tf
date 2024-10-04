@@ -220,6 +220,16 @@ variable "ECS_POLICY_NAME" {
   default     = "dagster-ecs-policytf01"
 }
 
+variable "EVENTBRIDGE_DATASYNC_EXECUTION_ROLE_NAME" {
+  description = "The name of the IAM role that allows EventBridge to invoke the StartTaskExecution action for DataSync"
+  default     = "dagster-eventbridge-datasync-execution-roletf01"
+}
+
+variable "EVENTBRIDGE_DATASYNC_EXECUTION_POLICY_NAME" {
+  description = "The name of the IAM policy that allows EventBridge to invoke the StartTaskExecution action for DataSync"
+  default     = "dagster-eventbridge-datasync-execution-policytf01"
+}
+
 # --------------------------------------------------------------------------------------------------------
 # DataSync Variables
 # --------------------------------------------------------------------------------------------------------

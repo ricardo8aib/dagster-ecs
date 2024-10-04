@@ -13,6 +13,11 @@ variable "CODE_LOCATION_BUCKET_ARN" {
   type        = string
 }
 
+variable "CODE_LOCATION_BUCKET_NAME" {
+  description = "The name of the code location Bucket"
+  type        = string
+}
+
 variable "EFS_ARN" {
   description = "The ARN of the EFS"
   type        = string

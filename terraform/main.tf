@@ -42,23 +42,25 @@ module "efs" {
 }
 
 module "IAM" {
-  source                   = "./modules/IAM"
-  ECS_ROLE_NAME            = var.ECS_ROLE_NAME
-  ECS_POLICY_NAME          = var.ECS_POLICY_NAME
-  DATASYNC_POLICY_NAME     = var.DATASYNC_POLICY_NAME
-  DATASYNC_ROLE_NAME       = var.DATASYNC_ROLE_NAME
-  CODE_LOCATION_BUCKET_ARN = module.s3.code_location_bucket_arn["code_location_bucket_arn"]
-  EFS_ARN                  = module.efs.efs["efs_arn"]
+  source                                   = "./modules/IAM"
+  ECS_ROLE_NAME                            = var.ECS_ROLE_NAME
+  ECS_POLICY_NAME                          = var.ECS_POLICY_NAME
+  DATASYNC_POLICY_NAME                     = var.DATASYNC_POLICY_NAME
+  DATASYNC_ROLE_NAME                       = var.DATASYNC_ROLE_NAME
+  CODE_LOCATION_BUCKET_ARN                 = module.s3.code_location_bucket_arn["code_location_bucket_arn"]
+  EFS_ARN                                  = module.efs.efs["efs_arn"]
+  EVENTBRIDGE_DATASYNC_EXECUTION_ROLE_NAME = var.EVENTBRIDGE_DATASYNC_EXECUTION_ROLE_NAME
 }
 
 module "datasync" {
-  source                   = "./modules/datasync"
-  DATASYNC_TASK_ROLE_ARN   = module.IAM.datasync_role["datasync_role_arn"]
-  CODE_LOCATION_BUCKET_ARN = module.s3.code_location_bucket_arn["code_location_bucket_arn"]
-  EFS_ARN                  = module.efs.efs["efs_arn"]
-  DAGSTER_SERVICES_SG_ARN  = module.networking.security_group_ids["dagster_services_sg_arn"]
-  SUBNET_ARN               = var.SUBNET_ARN_FOR_DATASYNC_TASK
-  DATASYNC_TASK_NAME       = var.DATASYNC_TASK_NAME
+  source                    = "./modules/datasync"
+  DATASYNC_TASK_ROLE_ARN    = module.IAM.datasync_role["datasync_role_arn"]
+  CODE_LOCATION_BUCKET_ARN  = module.s3.code_location_bucket_arn["code_location_bucket_arn"]
+  EFS_ARN                   = module.efs.efs["efs_arn"]
+  DAGSTER_SERVICES_SG_ARN   = module.networking.security_group_ids["dagster_services_sg_arn"]
+  SUBNET_ARN                = var.SUBNET_ARN_FOR_DATASYNC_TASK
+  DATASYNC_TASK_NAME        = var.DATASYNC_TASK_NAME
+  CODE_LOCATION_BUCKET_NAME = var.BUCKET_NAME
 }
 
 module "ecs" {
